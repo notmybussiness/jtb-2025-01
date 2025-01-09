@@ -1,6 +1,7 @@
 package com.example.demo.question;
 
 
+import com.example.demo.user.SiteUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -8,6 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import com.example.demo.DataNotFoundException;
+
+import java.awt.desktop.QuitEvent;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +33,6 @@ public class QuestionService {
         return this.questionRepository.findAll(pageable);
     }
 
-
     public Question getQuestion(Integer id){
         Optional<Question> question = this.questionRepository.findById(id);
         if (question.isPresent()) {
@@ -40,12 +42,23 @@ public class QuestionService {
         }
     }
 
-    public void createQuestion(String subject, String content){
+    public void createQuestion(String subject, String content, SiteUser author){
         Question question = new Question();
         question.setSubject(subject);
         question.setContent(content);
         question.setCreateDate(LocalDateTime.now());
+        question.setAuthor(author);
         this.questionRepository.save(question);
     }
 
+    public void modify(Question question, String subject, String content) {
+        question.setSubject(subject);
+        question.setContent(content);
+        question.setModifyDate(LocalDateTime.now());
+        this.questionRepository.save(question);
+    }
+
+    public void delete(Question question) {
+        this.questionRepository.delete(question);
+    }
 }
