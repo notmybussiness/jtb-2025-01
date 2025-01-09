@@ -12,4 +12,9 @@ public class MainController {
 //            System.out.println("index");
         return "welcome to the show";
     }
+
+    @GetMapping("/")
+    public String root(){
+        return "redirect:/question/list";
+    }
 }
