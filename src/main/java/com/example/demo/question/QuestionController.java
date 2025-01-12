@@ -1,5 +1,6 @@
 package com.example.demo.question;
 
+import com.example.demo.answer.Answer;
 import com.example.demo.answer.AnswerForm;
 import com.example.demo.user.SiteUser;
 import com.example.demo.user.UserService;
@@ -37,15 +38,22 @@ public class QuestionController {
         return "question_list";
     }
 
+//    @GetMapping(value = "/detail/{id}")
+//    public String detail(Model model, @PathVariable("id") Integer id, AnswerForm answerForm){
+//        Question question = this.questionService.getQuestion(id);
+//        model.addAttribute("question", question);
+//        return "question_detail";
+//    }
+
     @GetMapping(value = "/detail/{id}")
-    public String detail(Model model, @PathVariable("id") Integer id, AnswerForm answerForm){
+    public String detail(Model model, @PathVariable("id") Integer id, AnswerForm answerForm,
+                         @RequestParam(value="page", defaultValue = "0") int page){
         Question question = this.questionService.getQuestion(id);
+        Page<Answer> paging = this.questionService.getAnswerList(question, page);
         model.addAttribute("question", question);
+        model.addAttribute("paging", paging);
         return "question_detail";
     }
-
-    @GetMapping(value = "/detail/{id}")
-
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/create")

@@ -2,6 +2,7 @@ package com.example.demo.question;
 
 
 import com.example.demo.answer.Answer;
+import com.example.demo.answer.AnswerRepository;
 import com.example.demo.user.SiteUser;
 import jakarta.persistence.criteria.*;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,7 @@ import java.util.Optional;
 @Service
 public class QuestionService {
     private final QuestionRepository questionRepository;
+    private final AnswerRepository answerRepository;
 
     private Specification<Question> search(String kw) {
         return new Specification<>() {
@@ -47,12 +49,21 @@ public class QuestionService {
         return this.questionRepository.findAll();
     }
 
+    //paging + search 질문 리스트
     public Page<Question> getList(int page, String kw){
-        List< Sort.Order> sorts = new ArrayList<>();
+        List<Sort.Order> sorts = new ArrayList<>();
         sorts.add(Sort.Order.desc("createDate"));
         Pageable pageable = PageRequest.of(page,10, Sort.by(sorts));
         Specification<Question> spec = search(kw);
         return this.questionRepository.findAll(spec, pageable);
+    }
+
+    //paging 답변 리스트
+    public Page<Answer> getAnswerList(Question question, int page){
+        List<Sort.Order> sorts = new ArrayList<>();
+        sorts.add(Sort.Order.desc("createDate"));
+        Pageable pageable = PageRequest.of(page,5, Sort.by(sorts));
+        return this.answerRepository.findAllByQuestion(question, pageable);
     }
 
     public Question getQuestion(Integer id){
