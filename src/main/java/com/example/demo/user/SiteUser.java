@@ -1,6 +1,8 @@
 package com.example.demo.user;
 
+import com.example.demo.answer.Answer;
 import com.example.demo.comment.Comment;
+import com.example.demo.question.Question;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,5 +27,10 @@ public class SiteUser {
     private String email;
 
     @OneToMany(mappedBy = "author")
+    private List<Question> questionList;
+    @OneToMany(mappedBy = "author")
+    private List<Answer> answerList;
+    @OneToMany(mappedBy = "author")
     private List<Comment> commentList;
+    
 }

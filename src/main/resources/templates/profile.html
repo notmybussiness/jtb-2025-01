@@ -1,0 +1,94 @@
+<!-- templates/profile.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<div layout:fragment="content">
+    <!-- 프로필 상단 섹션 -->
+    <div class="container my-3">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <!-- 프로필 기본 정보 -->
+                    <div class="ms-3">
+                        <h4 class="mb-0" th:text="${user.username}"></h4>
+                        <p class="text-muted mb-0" th:text="${user.email}"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 탭 메뉴 -->
+    <div class="container my-3">
+        <ul class="nav nav-tabs" id="profileTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="questions-tab" data-bs-toggle="tab"
+                        data-bs-target="#questions" type="button" role="tab">
+                    작성한 질문
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="answers-tab" data-bs-toggle="tab"
+                        data-bs-target="#answers" type="button" role="tab">
+                    작성한 답변
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="comments-tab" data-bs-toggle="tab"
+                        data-bs-target="#comments" type="button" role="tab">
+                    작성한 댓글
+                </button>
+            </li>
+        </ul>
+
+        <!-- 탭 내용 -->
+        <div class="tab-content" id="profileTabContent">
+            <!-- 질문 탭 -->
+            <div class="tab-pane fade show active" id="questions" role="tabpanel">
+                <div class="list-group mt-3">
+                    <div class="list-group-item" th:each="question : ${questions}">
+                        <div class="d-flex justify-content-between">
+                            <h5 class="mb-1">
+                                <a th:href="@{|/question/detail/${question.id}|}"
+                                   th:text="${question.subject}"></a>
+                            </h5>
+                            <small th:text="${#temporals.format(question.createDate, 'yyyy-MM-dd')}"></small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 답변 탭 -->
+            <div class="tab-pane fade" id="answers" role="tabpanel">
+                <div class="list-group mt-3">
+                    <div class="list-group-item" th:each="answer : ${answers}">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h5 class="mb-1">
+                                    <a th:href="@{|/question/detail/${answer.question.id}|}"
+                                       th:text="${answer.question.subject}"></a>
+                                </h5>
+                                <p class="mb-1" th:text="${answer.content}"></p>
+                            </div>
+                            <small th:text="${#temporals.format(answer.createDate, 'yyyy-MM-dd')}"></small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 댓글 탭 -->
+            <div class="tab-pane fade" id="comments" role="tabpanel">
+                <div class="list-group mt-3">
+                    <div class="list-group-item" th:each="comment : ${comments}">
+                        <div class="d-flex justify-content-between">
+                            <p class="mb-1" th:text="${comment.content}"></p>
+                            <small th:text="${#temporals.format(comment.createDate, 'yyyy-MM-dd')}"></small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

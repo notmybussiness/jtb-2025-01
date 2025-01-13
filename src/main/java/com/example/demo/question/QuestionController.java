@@ -47,6 +47,7 @@ public class QuestionController {
     public String detail(Model model, @PathVariable("id") Integer id, AnswerForm answerForm,
                          @RequestParam(value="page", defaultValue = "0") int page){
         Question question = this.questionService.getQuestion(id);
+        this.questionService.incrementViewCount(question);
         Page<Answer> paging = this.questionService.getAnswerList(question, page);
         model.addAttribute("question", question);
         model.addAttribute("paging", paging);

@@ -4,6 +4,7 @@ import com.example.demo.DataNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.naming.Binding;
+import java.security.Principal;
 
 @RequestMapping("/user")
 @RequiredArgsConstructor
@@ -72,6 +74,21 @@ public class UserController {
             model.addAttribute("message", "등록되지 않은 이메일입니다.");
             return "find_form";
         }
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/profile")
+    public String mypage(Principal principal, Model model) {
+        // 현재 로그인한 사용자 정보 가져오기
+        SiteUser user = userService.getUser(principal.getName());
+
+        // 모델에 필요한 데이터 추가
+        model.addAttribute("user", user);
+        model.addAttribute("questions", user.getQuestionList());
+        model.addAttribute("answers", user.getAnswerList());
+        model.addAttribute("comments", user.getCommentList());
+
+        return "profile";
     }
 
 }
