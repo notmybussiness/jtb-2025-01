@@ -13,8 +13,8 @@ public class MainController {
         return "welcome to the show";
     }
 
-    @GetMapping("/")
-    public String root(){
-        return "redirect:/question/list";
-    }
+//    @GetMapping("/")
+//    public String root(){
+//        return "redirect:/question/list";
+//    }
 }

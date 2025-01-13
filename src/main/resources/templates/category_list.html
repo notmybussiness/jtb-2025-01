@@ -1,0 +1,35 @@
+<html layout:decorate="~{layout}">
+    <div layout:fragment="content" class="container my-3">
+
+        <table class="table">
+            <thead class="table-dark">
+            <tr class="text-center">
+                <th style="width:50%">게시판</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class = "text-center" th:each="category: ${categories}">
+                <td>
+<!--                    <a th:if="${category.getCategory() == '질문답변'}"-->
+<!--                       th:href="@{/question/list}"-->
+<!--                       th:text="${category.getCategory()}"></a>-->
+<!--                    <a th:if="${category.getCategory() == '자유게시판'}"-->
+<!--                       th:href="@{/free/list}"-->
+<!--                       th:text="${category.getCategory()}"></a>-->
+<!--                    <a th:if="${category.getCategory() == '강좌'}"-->
+<!--                       th:href="@{/lecture/list}"-->
+<!--                       th:text="${category.getCategory()}"></a>-->
+                    <a th:href="@{${category.getCategory() + '/list'}}"
+                       th:text="${category.getCategory()}"></a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="row my-3">
+            <div class="col-6">
+                <a th:href="@{/create}" class="btn btn-primary">게시판 등록하기</a>
+            </div>
+        </div>
+    </div>
+</html>

@@ -17,8 +17,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
-import java.util.List;
-
 
 @RequestMapping("/question")
 @RequiredArgsConstructor

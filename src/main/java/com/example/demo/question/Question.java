@@ -1,6 +1,8 @@
 package com.example.demo.question;
 
 import com.example.demo.answer.Answer;
+import com.example.demo.category.Category;
+import com.example.demo.comment.Comment;
 import com.example.demo.user.SiteUser;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -29,10 +31,15 @@ public class Question {
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
     private List<Answer> answerList;
+    @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
+    private List<Comment> commentList;
 
     @ManyToOne
     private SiteUser author;
 
     @ManyToMany
     Set<SiteUser> voter;
+
+    @ManyToOne
+    private Category category;
 }

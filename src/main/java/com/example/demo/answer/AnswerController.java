@@ -27,16 +27,6 @@ public class AnswerController {
     private final AnswerService answerService;
     private final UserService userService;
 
-//    @GetMapping("/detail/{id}")
-//    public String list(Model model,
-//                       @PathVariable("id") Integer id,
-//                       @RequestParam(value = "page", defaultValue = "0") int page){
-//        Question question = this.questionService.getQuestion(id);
-//        Page<Answer> paging = this.answerService.getAnswerList(page);
-//        model.addAttribute("question", question);
-//        model.addAttribute("paging", paging);
-//        return "question_detail";
-//    }
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/create/{id}")
     public String createAnswer(Model model,
@@ -67,9 +57,8 @@ public class AnswerController {
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/modify/{id}")
-    public String answerModify(@Valid AnswerForm answerForm,
-            BindingResult bindingResult,
-            @PathVariable("id") Integer id, Principal principal) {
+    public String answerModify(@Valid AnswerForm answerForm, BindingResult bindingResult,
+                                @PathVariable("id") Integer id, Principal principal) {
         if (bindingResult.hasErrors()) {
             return "answer_form";
         }

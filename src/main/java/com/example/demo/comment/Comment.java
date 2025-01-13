@@ -1,6 +1,6 @@
-package com.example.demo.answer;
+package com.example.demo.comment;
 
-import com.example.demo.comment.Comment;
+import com.example.demo.answer.Answer;
 import com.example.demo.question.Question;
 import com.example.demo.user.SiteUser;
 import jakarta.persistence.*;
@@ -8,32 +8,31 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Set;
 
 @Getter
 @Setter
 @Entity
-public class Answer {
+public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private  Integer id;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(length = 100)
     private String content;
 
     private LocalDateTime createDate;
     private LocalDateTime modifyDate;
 
-    @OneToMany(mappedBy = "answer", cascade = CascadeType.REMOVE)
-    private List<Comment> commentList;
+    @ManyToOne
+    @JoinColumn(name = "question_id", nullable = true)
+    private Question question;
 
     @ManyToOne
-    private Question question;
+    @JoinColumn(name = "answer_id", nullable = true)
+    private Answer answer;
 
     @ManyToOne
     private SiteUser author;
 
-    @ManyToMany
-    Set<SiteUser> voter;
 }
